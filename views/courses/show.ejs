@@ -1,0 +1,49 @@
+<style>
+    .button {
+    background-color: #4c8baf;
+    border-radius: 50px;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    }
+</style>
+<Body background="https://previews.123rf.com/images/krekdm/krekdm1608/krekdm160800053/61579452-back-to-school-seamless-pattern-can-be-used-for-wallpaper-website-background-wrapping-paper-study-br.jpg" style="height:100%;">
+
+<div class="mt-4">
+    <div class="row">
+
+        <div class="col-lg-3">
+            <a href="#" class="button">Mua Khóa Học</a>
+        </div>
+  
+        <div class="col-lg-9">
+            <h2><%= course.name %></h2>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/<%= course.videoId %>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <div style="background-color: rgb(235, 157, 157); width: 565px; border-radius: 20px;">
+            <p class="mt-4"><%= course.description %>
+            </p>
+            
+         
+            </div>
+            <div class="col-lg-9">
+                <div style="background-color: rgb(163, 163, 163);  border-radius: 20px;">
+                <p class="mt-4">Nhập Comment Của Bạn...</p>
+                </div>
+                <div style="background-color: rgb(240, 240, 240);  border-radius: 20px;">
+                    <p class="mt-4">Mình kém môn này lắm mà mình đăng ký khóa học này, thầy cô dạy nhiệt tình lắm mà dễ hiểu cực</p>
+                    </div>
+                    <div style="background-color: rgb(240, 240, 240);  border-radius: 20px;">
+                        <p class="mt-4">Thầy cô dạy hay quá!</p>
+                        </div>
+        </div>
+        
+      
+        </div>
+    </div>
+</div>
+</Body>

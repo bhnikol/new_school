@@ -1,0 +1,25 @@
+<Body background="https://previews.123rf.com/images/krekdm/krekdm1608/krekdm160800053/61579452-back-to-school-seamless-pattern-can-be-used-for-wallpaper-website-background-wrapping-paper-study-br.jpg" style="height: 600px;">
+<div class="mt-4">
+  <div style="background-color: white; padding: 20px; border-radius: 24px;">
+  <h3>Chỉnh sửa khóa học</h3>
+    <form method="POSt" action="/courses/<%= course._id %>?_method=PUT">
+        <div class="mb-3">
+          <label for="name" class="form-label">Tên khóa học</label>
+          <input type="text" class="form-control" id="name" name="name" value="<%= course.name %>">
+        </div>
+        <div class="mb-3">
+          <label for="description" class="form-label">Mô tả</label>
+          <input type="text" class="form-control" id="description" name="description" value="<%= course.description %>">
+        </div>
+        <div class="mb-3">
+          <label for="image" class="form-label">Image</label>
+          <input type="text" class="form-control" id="image" name="image" value="<%= course.image %>">
+        </div>
+        <div class="mb-3">
+          <label for="videoId" class="form-label">Video Id</label>
+          <input type="text" class="form-control" id="videoId" name="videoId" value="<%= course.videoId %>">
+        </div>
+        <button type="submit" class="btn btn-primary">Cập nhật</button>
+      </form>
+</div>
+</div>

@@ -1,0 +1,191 @@
+<style>
+  black {
+    color:black
+  }
+</style>
+<Body background="https://previews.123rf.com/images/krekdm/krekdm1608/krekdm160800053/61579452-back-to-school-seamless-pattern-can-be-used-for-wallpaper-website-background-wrapping-paper-study-br.jpg" style="height: 600px;">
+<form class="mt-4" method="POST" action="/courses/handle-action-courses">
+  <div style="background-color: white; padding: 20px; border-radius: 24px;">
+  <div>
+   
+    <h3>Khóa học đã xóa</h3>
+    <a href="/me/store/courses">Khóa học của tôi</a>
+  </div>
+  <div class="d-flex mt-4">
+    <select class="form-select form-select-sm w-auto me-4" name="action" required>
+      <option value="" selected>--Hành động--</option>
+      <option value="delete-forever"></black><div style="color: black;">Xóa vĩnh viễn</div></black></option>
+      <option value="restore"><black>Khôi phục</black>></option>
+    </select>
+    <button type="submit" class="btn btn-primary btn-sm btn-submit" disabled>Thực hiện</button>
+  </div>
+  <table class="table mt-4">
+    <thead>
+      <tr>
+        <th scope="col">
+          <input class="form-check-input" type="checkbox" id="check-all">
+        </th>
+        <th scope="col">STT</th>
+        <th scope="col">Tên khóa học</th>
+        <th scope="col">Thời gian xóa</th>
+        <th scope="col">Phương thức</th>
+      </tr>
+    </thead>
+    <tbody id="blog-course">
+    </tbody>
+  </table>
+</form>
+<div id="pagination" class="d-flex justify-content-end"></div>
+
+<!-- modal click delete course -->
+<div class="modal fade" id="delete-course" tabindex="-1" aria-labelledby="delete-courseLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="delete-courseLabel">Bạn muốn xóa khóa học?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Hành động này sẽ xóa vĩnh viễn khóa học. Bạn muốn xóa vĩnh viễn?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+        <button type="button" class="btn btn-danger" onclick="foreverCourse()">Xóa vĩnh viễn</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<script src="../../javascripts/pagination.js"></script>
+<script>
+  var courseDelete = document.getElementById('delete-course');
+  var checkedboxAll = $('#check-all');
+  var btnSubmit = $('.btn-submit');
+  var courseId;
+
+  //chức năng load trang
+  loadPage(1)
+
+  function loadPage(page) {
+    currPage = page;
+    $.ajax({
+      url: '/me/trash/courses/api?page=' + page,
+      type: 'GET',
+    })
+      .then(({ courses, PAGE_SKIP }) => {
+        $('#blog-course').html('');
+        lengthCourses = courses.length;
+        if (lengthCourses) {
+          for (let i = 0; i < lengthCourses; i++) {
+            const course = courses[i];
+            var item = $(`
+                <tr>
+                  <tr>
+          <th scope="row">
+            <input class="form-check-input check-item" name="courseIds" type="checkbox" value="${course._id}">
+          </th>
+          <th>
+            ${i + PAGE_SKIP + 1}
+          </th>
+          <td>
+            ${course.name}
+          </td>
+          <td>
+            ${course.deletedAt}
+          </td>
+          <td>
+            <a href="/courses/${course._id}/restore"
+              class="btn btn-sm btn-link btn-primary text-light text-decoration-none me-2">Khôi phục</a>
+            <button type="button" class="btn btn-sm btn-link btn-danger  text-light text-decoration-none"
+              data-bs-toggle="modal" data-bs-target="#delete-course" data-id="${course._id}">Xóa vĩnh viễn</button>
+          </td>
+        </tr>`);
+            $('#blog-course').append(item);
+          }
+          checkedHandleCoures();
+        }
+        else {
+          var item = $(`<td class="p-4 text-center" colspan="4">Thùng rác trống <a href="/me/store/courses">Danh sách khóa học</a></td>`);
+          $('#blog-course').append(item);
+        }
+
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  //phân trang
+  $('#pagination').pagination({
+    dataSource: '/me/trash/courses/api',
+    locator: 'data',
+    pageSize: 5,
+    showGoInput: true,
+    showGoButton: true,
+    showNavigator: true,
+    hideWhenLessThanOnePage: true,
+    totalNumberLocator: function (response) {
+      return response.length;
+    },
+    afterPageOnClick: function (event, currPage) {
+      loadPage(currPage)
+    },
+    afterPreviousOnClick: function (event, currPage) {
+      loadPage(currPage)
+    },
+    afterNextOnClick: function (event, currPage) {
+      loadPage(currPage)
+    },
+    beforeGoButtonOnClick: function (event, currPage) {
+      loadPage(currPage)
+    },
+    beforeGoInputOnEnter: function (event, currPage) {
+      loadPage(currPage)
+    },
+
+  })
+
+  //lấy ra id qua modal bootstrap
+  courseDelete.addEventListener('show.bs.modal', function (event) {
+    // Button that triggered the modal
+    var button = event.relatedTarget
+    // Extract info from data-bs-* attributes
+    var id = button.getAttribute('data-id')
+    courseId = id;
+  })
+
+  // Xóa vĩnh viễn khóa học
+  function foreverCourse() {
+    $.ajax({
+      url: '/courses/' + courseId + '/forever',
+      type: 'delete'
+    })
+      .then(data => {
+        window.location.href = '/me/trash/courses'
+      })
+      .catch(err => {
+        console.log('loi');
+      })
+  }
+
+  // xử lý hành động khóa học
+  function checkedHandleCoures(){
+    var courseItemCheckbox = $('.check-item');
+    checkedboxAll.change(function () {
+      var isChecked = $(this).prop('checked');
+      courseItemCheckbox.prop('checked', isChecked);
+      submitCheckedBtn();
+      })
+      courseItemCheckbox.change(function() {
+        var isCheckedAll = courseItemCheckbox.length === $('.check-item:checked').length;
+        checkedboxAll.prop('checked', isCheckedAll)
+        submitCheckedBtn();
+      })
+
+      function submitCheckedBtn(){
+        var countItemChecked = $('.check-item:checked').length;
+        btnSubmit.attr('disabled', !countItemChecked);
+      }
+  }
+</script>
+

@@ -1,0 +1,22 @@
+<Body background="https://previews.123rf.com/images/krekdm/krekdm1608/krekdm160800053/61579452-back-to-school-seamless-pattern-can-be-used-for-wallpaper-website-background-wrapping-paper-study-br.jpg" style="height:100%;"> 
+  <div style="background-size: 300px 100 px;"> 
+  <div class="row">
+      <% courses.forEach(function(course){ %>
+      <div class="col-lg-4 col-sm-6 mt-5" >
+        <div class="card" >
+            <a href="/courses/<%= course.slug %>">
+                <img src="<%= course.image %>" class="card-img-top" alt="<%= course.name %>" style="height: 200px; width: 350px;">
+            </a>
+          <div class="card-body height-100%" >
+            <a href="/courses/<%= course.slug %>">
+            <h5 class="card-title"><%= course.name %></h5>
+            </a>
+            <p class="card-text">Bấm vào để xem chi tiết...</p>
+            <a href="#" class="btn btn-primary mt-auto">Mua Khóa học</a>
+          </div>
+        </div>
+      </div>
+      <% }); %>
+    </div>
+</div>
+</div> 
