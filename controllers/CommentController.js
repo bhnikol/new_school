@@ -1,20 +1,18 @@
 var commentModel = require("../models/commentModel");
+var coursesModel = require("../models/coursesModel");
 class CommentController {
-  // [GET] /comment/:id
-  index(req, res, next) {
-    commentModel
-      .findWithDeleted({ course_id: req.params.id })
-      .then((comment) => res.render("comment", { comment }))
-      .catch((err) => res.status(400).json({ err: "loi server" }));
-  }
-
   // [POST] /comment/create/:id
   create(req, res, next) {
     req.body.user_id = res.locals.account._id;
-    req.course_id = req.params.id;
+    req.body.course_id = req.params.id;
+
     commentModel
       .create(req.body)
-      .then(() => res.redirect("/comment"))
+      .then(() => {
+        coursesModel.findOne({ _id: req.params.id }).then((course) => {
+          res.redirect(`/courses/${course.slug}`);
+        });
+      })
       .catch((err) => {
         err;
       });

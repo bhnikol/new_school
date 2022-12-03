@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const questionController = require("../controllers/QuestionController");
+const commentController = require("../controllers/CommentController");
 
-router.get("/", questionController.index);
+router.post("/create/:id", commentController.create);
 
 module.exports = router;
