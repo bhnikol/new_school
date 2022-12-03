@@ -1,7 +1,7 @@
 <div class="row">
-  <form class="mt-4" method="POST" action="/question/create">
+  <form class="mt-4" method="POST" action="/question/create" style="background-color: rgb(238, 236, 236);margin-bottom: 10px;border-radius: 12px;">
     <div class="mb-3">
-      <label for="content" class="form-label">Nội dụng câu hỏi</label>
+      <label for="content" class="form-label" style="margin-top:10px">Nội dụng câu hỏi</label>
       <textarea
         type="text"
         class="form-control"
@@ -10,9 +10,8 @@
       ></textarea>
     </div>
     <button type="submit" class="btn btn-primary">Tạo câu hỏi</button>
+    <% questions.forEach(function(question){ %>
+    <div style="padding: 8px 0 8px 8px;"><%= question.content %></div>
+    <% }); %>
   </form>
-
-  <% questions.forEach(function(question){ %>
-  <div><%= question.content %></div>
-  <% }); %>
 </div>

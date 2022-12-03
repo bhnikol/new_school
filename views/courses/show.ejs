@@ -35,9 +35,10 @@
         ></iframe>
         <div
           style="
-            background-color: rgb(235, 157, 157);
+            background-color: #fff;
             width: 565px;
             border-radius: 20px;
+            padding: 20px;
           "
         >
           <p class="mt-4"><%= course.description %></p>
@@ -46,6 +47,7 @@
           class="mt-4"
           method="POST"
           action="/comment/create/<%= course._id %>"
+          style="background-color: #fff; padding: 20px; width: 565px;border-radius: 12px;margin-bottom: 10px;"
         >
           <div class="mb-3">
             <label for="content" class="form-label">Nội dung bình luận</label>
@@ -57,10 +59,10 @@
             ></textarea>
           </div>
           <button type="submit" class="btn btn-primary">Thêm bình luận</button>
+          <% comments.forEach(function(comment){ %>
+          <p style="margin-top:10px"><%= comment.content %></p>
+          <% }); %>
         </form>
-        <% comments.forEach(function(comment){ %>
-        <div class="col-lg-4 col-sm-6 mt-5"><%= comment.content %></div>
-        <% }); %>
       </div>
     </div>
   </div>
