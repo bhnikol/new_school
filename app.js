@@ -25,7 +25,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 const port = process.env.PORT || 6699;
-app.locals.account = "";
 //route
 route(app);
 

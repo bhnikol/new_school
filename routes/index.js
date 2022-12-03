@@ -9,6 +9,7 @@ const searchRouter = require("./search");
 var jwt = require("jsonwebtoken");
 const sortMiddleware = require("../middleware/sortMiddleware");
 const checkLoginMiddleware = require("../middleware/checkLoginMiddleware");
+const addUserMiddleware = require("../middleware/addUserMiddleware");
 const helper = require("../views/helper");
 
 function route(app) {
@@ -23,6 +24,7 @@ function route(app) {
 
   // [GET] /account
   app.use("/account", accountRouter);
+  app.use(addUserMiddleware);
   app.get("/", siteRouter);
   // [GET] /courses
   app.use(checkLoginMiddleware);

@@ -237,7 +237,7 @@ img {vertical-align: middle;}
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
     </form>
     <ul class="navbar-nav ">
-      <% if (!!account) { %>
+      <% if (account) { %>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
           aria-expanded="false">
@@ -260,7 +260,7 @@ img {vertical-align: middle;}
         
       </li>
       <% }else{ %>
-        <a href="/account/login">Login Or Register</a>
+        <a href="/account">Login Or Register</a>
         <% }%>
     </ul>
   </div>
