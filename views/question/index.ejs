@@ -1,3 +1,18 @@
-<Body background="https://previews.123rf.com/images/krekdm/krekdm1608/krekdm160800053/61579452-back-to-school-seamless-pattern-can-be-used-for-wallpaper-website-background-wrapping-paper-study-br.jpg" style="height:100%;"> 
+<div class="row">
+  <form class="mt-4" method="POST" action="/question/create">
+    <div class="mb-3">
+      <label for="content" class="form-label">Nội dụng câu hỏi</label>
+      <textarea
+        type="text"
+        class="form-control"
+        id="content"
+        name="content"
+      ></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Tạo câu hỏi</button>
+  </form>
 
-    <h1>hỏi đáp</h1>>
+  <% questions.forEach(function(question){ %>
+  <div><%= question.content %></div>
+  <% }); %>
+</div>
