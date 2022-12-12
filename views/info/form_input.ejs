@@ -1,0 +1,65 @@
+<style>
+  .modal-content{
+    background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  }
+  .close{
+    position: absolute;
+    right: 20px;
+    top: 14px;
+    font-weight: 100;
+  }
+  .modal-header .modal-title{font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 0;}
+</style>
+<div class="modal">
+<div class="modal-dialog modal-lg">
+  
+    <div class="modal-content">
+    <div class="modal-header">
+      <h4 id="modal-label-3" class="modal-title">Tạo thông tin</h4>
+      <span class="close">&times;</span>
+    </div>
+      
+      <div style="background-color: white; padding: 5px; border-radius: 24px">
+        <form class="mt-4" method="POST" action="/info/create">
+          <div class="mb-3">
+            <label for="name" class="form-label">Tên</label>
+            <input type="text" class="form-control" id="name" name="name" />
+          </div>
+          <div class="mb-3">
+            <label for="description" class="form-label">Nội dung</label>
+            <textarea type="text" class="form-control" id="description" name="description"></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="image" class="form-label">Link ảnh</label>
+            <input type="text" class="form-control" id="image" name="image" />
+          </div>
+
+          <button type="submit" class="btn btn-primary">Lưu tin</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</div></div>
+
+<script>
+  $(".info_detail").off("click").on("click", function () {
+    var $this = $(this),
+      id = $this.attr("data-id"),
+      url = "/info/" + id;
+    $.get(url, function (data, status) {
+      $("#name").val(data.name);
+      $("#description").val(data.description);
+      $("#image").val(data.image);
+    });
+  });
+  $('.close').off("click").on("click", function () {
+    $('.modal').hide();
+  });
+</script>

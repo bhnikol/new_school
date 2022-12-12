@@ -10,6 +10,7 @@
     font-size: 16px;
     margin: 4px 2px;
     cursor: pointer;
+    justify-content: center;
   }
 </style>
 <Body
@@ -48,22 +49,35 @@
           method="POST"
           action="/comment/create/<%= course._id %>"
           style="background-color: #fff; padding: 20px; width: 565px;border-radius: 12px;margin-bottom: 10px;"
-        >
-          <div class="mb-3">
-            <label for="content" class="form-label">Nội dung bình luận</label>
-            <textarea
-              type="text"
-              class="form-control"
-              id="content"
-              name="content"
-            ></textarea>
-          </div>
-          <button type="submit" class="btn btn-primary">Thêm bình luận</button>
+        >         
+          <% if(account){%> 
+            <div class="mb-3">
+              <label for="content" class="form-label">Nội dung bình luận</label>
+              <textarea
+                type="text"
+                class="form-control"
+                id="content"
+                name="content"
+              ></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" id="binhluan">Thêm bình luận</button>
+          <%} else{ %>
+            <button type="submit" class="btn btn-primary" id="NoBinhLuan">Đăng nhập để thêm bình luận</button>
+            <%}%>
+          
           <% comments.forEach(function(comment){ %>
-          <p style="margin-top:10px"><%= comment.content %></p>
+            <div>
+            <div style="font-weight: bold;    display: inline-block; margin: 5px;"> Bình luận:</div>
+          <div style="margin-top:10px;    display: inline-block; margin: 5px;"> <%= comment.content %></div>
+        </div>
           <% }); %>
         </form>
       </div>
     </div>
   </div>
 </Body>
+<script>
+  $('#NoBinhLuan').off('click').on('click', function(){
+    window.location = window.location.origin + '/account/login';
+  });
+</script>

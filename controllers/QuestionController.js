@@ -1,3 +1,4 @@
+const answerModel = require("../models/answerModel");
 var questionModel = require("../models/questionModel");
 class QuestionController {
   // [GET] /question
@@ -10,34 +11,33 @@ class QuestionController {
 
   // [POST] /question/create
   create(req, res, next) {
-    req.body.user_id = res.locals.account._id;
+    var question = new questionModel();
+    question.user_id = res.locals.account._id;
+    question.content = req.body.content;    
     questionModel
-      .create(req.body)
+      .create(question)
       .then(() => res.redirect("/question"))
       .catch((err) => {
         err;
       });
   }
 
-  // [POST] /question/answer/:id
-  answer(req, res, next) {
+  //[GET] /question/answers/:slug
+  // show câu hỏi và form trả lời
+  answers(req, res, next) {
+    var slug = req.params.slug;
     questionModel
-      .findOneAndUpdate(
-        { _id: req.params.id },
-        {
-          $push: {
-            answer: {
-              user_id: res.locals.account._id,
-              content: req.body.content,
-            },
-          },
-        }
-      )
-      .then(() => res.redirect("/question"))
-      .catch((err) => {
-        err;
-      });
+      .findOne({ slug })
+      .then((question) => {
+        answerModel
+          .findWithDeleted({ question_id: question._id })
+          .then((answers) => res.render("question/answer",  { question, answers}))
+          .catch((err) => res.status(400).json({ err: "loi server" }));
+      })
+      .catch((err) => res.status(400).json({ err: "loi server" }));
   }
+
+  
 }
 
 module.exports = new QuestionController();

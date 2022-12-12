@@ -6,7 +6,8 @@ const Schema = mongoose.Schema;
 
 const info = new Schema({
     name: {
-        type: String
+        type: String,
+        required: true
     },
     description: {
         type: String
@@ -14,15 +15,11 @@ const info = new Schema({
     image: {
         type: String
     },
-    answer: 
-    {
-        type: Array
+    user_id:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "account",
+        required: true
     },
-    correct:
-    {
-        type: String
-    },
-
     deletedAt: {type: Date},
     deleted: {type: Boolean}
 }, {

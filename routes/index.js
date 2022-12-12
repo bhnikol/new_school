@@ -4,6 +4,7 @@ const accountRouter = require("./account");
 const meRouter = require("./me");
 const questionRouter = require("./question");
 const commentRouter = require("./comment");
+const answerRouter = require("./answer");
 const infoRouter = require("./info");
 const searchRouter = require("./search");
 var jwt = require("jsonwebtoken");
@@ -26,9 +27,11 @@ function route(app) {
   app.use("/account", accountRouter);
   app.use(addUserMiddleware);
   app.get("/", siteRouter);
+  app.use("/info", infoRouter);
+  app.use("/courses", coursesRouter);
+
   // [GET] /courses
   app.use(checkLoginMiddleware);
-  app.use("/courses", coursesRouter);
 
   // [GET] /me
   app.use("/me", meRouter);
@@ -36,10 +39,9 @@ function route(app) {
   // [GET] /question
   app.use("/question", questionRouter);
   app.use("/comment", commentRouter);
-
+  app.use("/answer", answerRouter );
   // [GET] /info
-  app.use("/info", infoRouter);
-
+ 
   // [GET] /search
   app.use("/search", searchRouter);
 }

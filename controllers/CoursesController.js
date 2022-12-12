@@ -30,6 +30,7 @@ class CoursesController {
 
   // [POST] /courses/store
   store(req, res, next) {
+    console.log(req.body)
     coursesModel
       .create(req.body)
       .then(() => res.redirect("/me/store/courses"))

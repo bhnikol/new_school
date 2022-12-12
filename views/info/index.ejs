@@ -1,3 +1,216 @@
-<Body background="https://previews.123rf.com/images/krekdm/krekdm1608/krekdm160800053/61579452-back-to-school-seamless-pattern-can-be-used-for-wallpaper-website-background-wrapping-paper-study-br.jpg" style="height:100%;"> 
+<style>
+  .panel-header {
+    border-bottom: 1px solid rgb(221, 227, 237);
+    color: black;
+    font-family: "HelveticaLight";
+    padding: 4px 10px 4px;
+    line-height: 30px;
+    background: rgb(236, 242, 252);
+    font-weight: 700;
+  }
 
-<h1>Thông tin nhà trường</h1>>
+  .panel {
+
+    margin-bottom: 10px;
+    background-color: #fff;
+    border: 1px solid transparent;
+    border-top-color: transparent;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+  }
+
+  .button-comment {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+
+  .button-comment:hover {
+    color: #fff;
+    background-color: #0069d9;
+    border-color: #0062cc;
+  }
+  .inline{
+    display: inline-block;
+    margin: 5px;
+  }
+</style>
+
+<Body>
+  <div class="col-12">
+    <div class="row">
+      <div class="col-12 col-sm-4 col-xs-4">
+        <div class="panel panel-default">
+          <div class="panel-header">
+            <i class="fad fa-bells" style="
+                --fa-primary-color: rgb(0, 122, 255);
+                --fa-secondary-color: rgb(246, 166, 91);
+                --fa-primary-opacity: 1;
+                --fa-secondary-opacity: 1;
+              "></i>
+            THÔNG TIN
+          </div>
+          <div class="noti-wraper expand">
+            <div class="slimScrollDiv" style="
+                position: relative;
+                overflow: hidden;
+                width: auto;
+                height: 450px;
+              ">
+              <div class="panel-body TrangChu" style="overflow: hidden; width: auto; height: 450px;overflow: scroll;">
+                <ol class="noti-lst">
+                  <% infos.forEach(function(detail){%>
+                    <li>
+                      <a href="javascript:;" class="info_detail" data-id="<%= detail._id %>">
+                        <%=detail.name%>
+                      </a>
+                    </li>
+                    <%});%>
+                </ol>
+              </div>
+              <div class="slimScrollBar" style="
+                  background: rgb(0, 0, 0);
+                  width: 7px;
+                  position: absolute;
+                  top: 0px;
+                  opacity: 0.4;
+                  display: none;
+                  border-radius: 7px;
+                  z-index: 99;
+                  right: 1px;
+                  height: 250px;
+                "></div>
+              <div class="slimScrollRail" style="
+                  width: 7px;
+                  height: 100%;
+                  position: absolute;
+                  top: 0px;
+                  display: none;
+                  border-radius: 7px;
+                  background: rgb(51, 51, 51);
+                  opacity: 0.2;
+                  z-index: 90;
+                  right: 1px;
+                "></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-8 col-xs-8">
+        <div class="row">
+          <div class="col-12">
+            <div class="panel panel-default">
+              <div class="panel-header">
+                <i class="fad fa-bells" style="
+                  --fa-primary-color: rgb(0, 122, 255);
+                  --fa-secondary-color: rgb(246, 166, 91);
+                  --fa-primary-opacity: 1;
+                  --fa-secondary-opacity: 1;
+                "></i>
+                THÔNG TIN CHI TIẾT
+                <% if(account && account.type==1){ %>
+                  <div id="DangThongTin"
+                    style="float:right;background-color: #0869d1;color: white;border-radius: 8px;font-size: 12px;padding: 0 2px 0 2px;">
+                    Đăng thông tin</div>
+                  <%}%>
+              </div>
+              <div class="noti-wraper expand">
+                <%- include detail.ejs %>
+                  <% if(account && account.type==1){ %>
+                    <%- include form_input.ejs %>
+                      <%}%>
+              </div>
+            </div></div>
+            <div class="col-12">
+
+              <% if(account){%>
+                <%- include comment.js %>
+                  <%} else {%>
+                    <button class="button-comment" id="button-comment">Đăng nhập để bình luận</button>
+                    <%}%>
+
+
+            
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</Body>
+<script>
+  $('#DangThongTin').off('click').on('click', function () {
+    $('.modal').show();
+  });
+  $(".info_detail").off("click").on("click", function () {
+    var $this = $(this),
+      id = $this.attr("data-id"),
+      url = "/info/" + id;
+    $.get(url, function (data, status) {
+      if (data) {
+        $('#detail').html('<p style="text-align-center; font-size:16px; font-weight:bold;">' + data.name + '</h3>' +
+          '<img src="' + data.image + '">' +
+          '<div class="content">' + data.description + '</div>');
+
+        $('#detail').attr('data-id', data.id);
+        console.log(data.id)
+        comments(data.id);
+      }
+    });
+  });
+  $('#button-comment').off('click').on('click', function () {
+    window.location = window.location.origin + '/account/login';
+  });
+  $('#luucomment').off('click').on('click', function () {
+    if ($('#content').val() == null) {
+      alert('Vui lòng điền bình luận');
+    }
+    else if ($('#detail').attr('data-id') == 0) {
+      alert('Vui lòng chọn nội dung thông tin');
+    }
+    else {
+      var data = {
+        info_id: $('#detail').attr('data-id'),
+        content: $('#content').val()
+      }
+      $.ajax({
+        url: window.location.origin + '/info/info_comment',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(data),
+        success: function (response) {
+          if (response.status == true) {
+            $('#content').val('');
+            comments($('#detail').attr('data-id'));
+          }
+          else {
+            alert(response.message);
+          }
+        }
+      });
+    }
+
+
+
+  });
+  var comments = function (id) {
+    console.log(id)
+    $('#answers').html('');
+    var url = '/info/' + id + '/comments';
+    
+
+    $.get(url, function (data, status) {
+      if (data.data){
+        $.each(data.data, function (i, item) {
+          $('#answers').append('<div class="mb-3" ><p style="font-weight: bold; display:inline; margin-right:10px" >' + item.user_name + ':</p>' +
+            '<p style="display:inline">' + item.content + '</p></div>');
+        });
+      }
+    });
+  }
+</script>

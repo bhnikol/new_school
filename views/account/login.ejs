@@ -1,14 +1,71 @@
-<div class="mt-4">
-  <form method="POST" action="/account/login">
-    <div class="mb-3">
-      <label for="username" class="form-label">Name</label>
-      <input type="text" class="form-control" id="username" aria-describedby="emailHelp" name="username">
+<style>
+  .box-login{
+    background: rgba(11, 10, 10, 0.75);
+  border-radius: 5px;
+  overflow: hidden;
+  padding: 30px 30px 40px;
+  max-width: 90%;
+  width: 450px;
+  display: block;
+  margin: 0 auto;
+}
+.box-login label{
+  color: white
+}
+.logo {
+  padding: 0;
+  text-align: center;
+  margin-left: 0;
+  font-family: 'HelveticaLight';
+  font-size: 25px;
+  min-width: 210px;
+  color: white
+
+}
+ 
+</style>
+<div class="mt-4 box-login">
+  <!-- <form method="POST" action="/account/login"> -->
+    <div class="logo">
+      Đăng nhập  
     </div>
     <div class="mb-3">
-      <label for="password" class="form-label">Password</label>
-      <input type="password" class="form-control" id="password" name="password">
+      <label for="username" class="form-label ">Tài khoản</label>
+      <input type="text" class="form-control required" id="username" aria-describedby="emailHelp" name="username">
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-  </form>
+    <div class="mb-3">
+      <label for="password" class="form-label ">Mật khẩu</label>
+      <input type="password" class="form-control required" id="password" name="password">
+    </div>
+    <label id="notiLogin" style="display:block;">Bạn chưa có tài khoản, nhấn vào đây để <a href="/account/create" style="color:#E6887D">đăng ký</a></label>
+    <button type="submit" class="btn btn-primary" style="width: 100%;" id="login">Đăng nhập</button>
+  <!-- </form> -->
+
 </div>
-<div>Bạn chưa có tài khoản, nhấn vào đây để <a href="/account/create">đăng ký</a></div>
+<script>
+  $("#login").off("click").on("click", function () {
+      if ($("#username").val() == "" || $("#password").val() == "") {
+        alert("Vui lòng điền thông tin");      
+      } 
+      else {
+        var data = {
+          username: $("#username").val(),
+          password: $("#password").val(),
+        };
+        $.ajax({
+          url: window.location.origin +'/account/login',
+          type: 'POST',
+          contentType: 'application/json',
+          data: JSON.stringify(data),
+          success: function(response){
+            if(response.status == true){
+              window.location = window.location.origin;
+            }
+            else{
+              alert(response.message);
+            }
+          }
+        });
+      }
+    });
+</script>

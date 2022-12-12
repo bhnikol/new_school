@@ -11,7 +11,7 @@
     </div>
     <button type="submit" class="btn btn-primary">Tạo câu hỏi</button>
     <% questions.forEach(function(question){ %>
-    <div style="padding: 8px 0 8px 8px;"><%= question.content %> <a href="">(Trả lời)</a></div>
+    <div style="padding: 8px 0 8px 8px;"><%= question.content %> <a href="/question/answer/<%= question.slug %>">(Trả lời)</a></div>
     <% }); %>
   </form>
 </div>

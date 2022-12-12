@@ -15,18 +15,18 @@ class AccountController {
       .then((data) => {
         if (data) {
           var token = jwt.sign(
-            { _id: data._id, username: data.username },
+            { _id: data._id, username: data.username, type: data.type },
             "pwd"
           );
           res.cookie("token", token, {
             expires: new Date(Date.now() + 900000),
           });
-          res.redirect("/");
+          res.json({status: true, message: "Đăng nhập thành công"});
         } else {
-          res.json("tai khoan hoac mat khau khong dung");
+          res.json({status: false, message: "tai khoan hoac mat khau khong dung"});
         }
       })
-      .catch((err) => res.json("dang nhap khong thanh cong"));
+      .catch((err) => res.json({status: false, message: "dang nhap khong thanh cong"}));
   }
 
   // [GET] /account/logout
@@ -42,19 +42,37 @@ class AccountController {
 
   // [POST] /account/register
   register(req, res, next) {
-    accountModel.findOne({ username: req.body.username }).then((data) => {
-      if (data) {
-        res.json("ten dang nhap da ton tai");
-      }
-    });
-    accountModel.create(req.body).then((data) => {
-      if (data) {
-        res.redirect("/account/login");
-      } else {
-        res.json("dang ky khong thanh");
-      }
-    });
-  }
+      accountModel.findOne({ username: req.body.username }).then((data) => {
+        if (data) {
+          res.json({
+            status: false,
+            message: 'Trùng tài khoản'
+          });
+        }
+        else{
+          accountModel.create(req.body).then((data) => {
+            if (data) {          
+              res.json({
+                status: true,
+                message: 'Đăng ký thành công'
+              });
+            } else {
+              res.json({
+                status: false,
+                message: 'Đăng ký thành công'
+              });
+            }
+          }).catch((err) => res.json({ status: false,
+            message: 'Lỗi server'}));
+        }
+      }).catch((err) => {res.json({ status: false,
+        message: 'Lỗi server' })});
+      
+      
+    }
+      
+   
+  
 }
 
 module.exports = new AccountController();

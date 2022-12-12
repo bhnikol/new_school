@@ -1,0 +1,58 @@
+<style>
+  .inline { 
+    display: inline-block; 
+    margin:5px;
+    }
+</style>
+
+<Body style="height: 100%">
+  <div class="mt-4">
+    <div class="row">
+      <div class="col-lg-3">
+        
+      </div>
+      <div class="col-lg-9">
+        <div
+          style="
+            background-color: #fff;
+            width: 565px;
+            border-radius: 20px;
+            padding: 20px;
+          "
+        > <label for="content" class="form-label" style="margin-top:10px">Nội dung câu hỏi</label>
+          <h2><%= question.content  %></h2>
+        </div>
+        <form
+          class="mt-4"
+          method="POST"
+          action="/answer/create/<%= question._id %>"
+          style="
+            background-color: #fff;
+            padding: 20px;
+            width: 565px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+          "
+        >
+          <div class="mb-3">
+            <label for="content" class="form-label">Trả lời</label>
+            <textarea
+              type="text"
+              class="form-control"
+              id="content"
+              name="content"
+            ></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Thêm trả lời</button>
+          <% answers.forEach(function(answer){ %>
+          
+          <div style="margin-top: 10px"> 
+            <div class="inline"><p style="font-weight: bold;" ><%= answer.user_name %> : </p></div>
+            <div class="inline"> <%= answer.content %></div>
+          </div>
+          <% }); %>
+        </form>
+      </div>
+    </div>
+  </div>
+</Body>

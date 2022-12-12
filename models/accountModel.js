@@ -16,6 +16,10 @@ const account = new Schema({
     },
     age: {
         type: Number
+    },
+    type:{
+        type: Number,
+        default: 0
     }
 }, {
     timestamps: true,

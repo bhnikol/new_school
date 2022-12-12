@@ -1,14 +1,79 @@
-
-<div class="mt-4">
-    <form method="POST" action="/account/register">
-      <div class="mb-3">
-        <label for="username" class="form-label">Name</label>
-        <input type="text" class="form-control" id="username" aria-describedby="emailHelp" name="username">
-      </div>
-      <div class="mb-3">
-        <label for="password" class="form-label">Password</label>
-        <input type="password" class="form-control" id="password" name="password">
-      </div>
-      <button type="submit" class="btn btn-primary">Register</button>
-    </form>
+<style>
+  .box-register {
+    background: rgba(11, 10, 10, 0.75);
+    border-radius: 5px;
+    overflow: hidden;
+    padding: 30px 30px 40px;
+    max-width: 90%;
+    width: 450px;
+    display: block;
+    margin: 0 auto;
+  }
+  .box-register label {
+    color: white;
+  }
+  .logo {
+    padding: 0;
+    text-align: center;
+    margin-left: 0;
+    font-family: "HelveticaLight";
+    font-size: 25px;
+    min-width: 210px;
+    color: white;
+  }
+</style>
+<div class="mt-4 box-register">
+  <!-- <form method="POST" action="/account/register"> -->
+  <div class="logo">Đăng ký tài khoản</div>
+  <div class="mb-3">
+    <label for="username" class="form-label">Tên tài khoản</label>
+    <input
+      type="text"
+      class="form-control"
+      id="username"
+      aria-describedby="emailHelp"
+      name="username"
+    />
   </div>
+  <div class="mb-3">
+    <label for="password" class="form-label">Mật khẩu</label>
+    <input type="password" class="form-control" id="password" name="password" />
+  </div>
+  <button
+    type="submit"
+    class="btn btn-primary"
+    id="register"
+    style="width: 100%"
+  >
+    Đăng ký
+  </button>
+  <!-- </form> -->
+</div>
+<script>
+  $("#register").off("click").on("click", function () {
+      if ($("#username").val() == "" || $("#password").val() == "") {
+        alert("Vui lòng điền thông tin");
+      } else if ($("#password").val().length < 8) {
+        alert("Mật khẩu phải có ít nhất 8 chữ cái");
+      } else {
+        var data = {
+          username: $("#username").val(),
+          password: $("#password").val(),
+        };
+        $.ajax({
+          url: window.location.origin +'/account/register',
+          type: 'POST',
+          contentType: 'application/json',
+          data: JSON.stringify(data),
+          success: function(response){
+            if(response.status == true){
+              window.location = window.location.origin + '/account/login';
+            }
+            else{
+              alert(response.message);
+            }
+          }
+        });
+      }
+    });
+</script>

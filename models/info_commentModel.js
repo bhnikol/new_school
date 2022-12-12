@@ -1,21 +1,22 @@
 const mongoose = require("mongoose");
-const slug = require('mongoose-slug-generator');
 const mongooseDelete = require("mongoose-delete");
 const Schema = mongoose.Schema;
 
-const question = new Schema(
+const info_commentModel = new Schema(
   {
-      user_id: {
+    info_id: {
       type: mongoose.Schema.Types.ObjectId,
+      ref: "comment",
+      default: null,
+    },
+    user_name: {
+      type: String,
       ref: "account",
       required: true,
-    },
+    },    
     content: {
       type: String,
-    }
-    
-  ,
-    slug:{ type: String, slug: 'content', unique: true },
+    },
     deletedAt: { type: Date },
     deleted: { type: Boolean },
   },
@@ -23,7 +24,6 @@ const question = new Schema(
     timestamps: true,
   }
 );
-mongoose.plugin(slug);
 
-question.plugin(mongooseDelete, { deletedAt: true, overrideMethods: true });
-module.exports = mongoose.model("question", question);
+info_commentModel.plugin(mongooseDelete, { deletedAt: true, overrideMethods: true });
+module.exports = mongoose.model("info_commentModel", info_commentModel);
