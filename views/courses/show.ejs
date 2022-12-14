@@ -25,15 +25,10 @@
 
       <div class="col-lg-9">
         <h2><%= course.name %></h2>
-        <iframe
-          width="560"
-          height="315"
-          src="https://www.youtube.com/embed/<%= course.videoId %>"
-          title="YouTube video player"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen
-        ></iframe>
+
+        <a href="/courses/<%= course.slug %>">
+          <img src="<%= course.image %>" class="card-img-top" alt="<%= course.name %>" style="height: 300px; width: 565px;border-radius: 2px;margin-bottom: 10px;">
+      </a>
         <div
           style="
             background-color: #fff;
@@ -50,6 +45,15 @@
           action="/comment/create/<%= course._id %>"
           style="background-color: #fff; padding: 20px; width: 565px;border-radius: 12px;margin-bottom: 10px;"
         >         
+        <iframe
+        width="530"
+        height="315"
+        src="https://www.youtube.com/embed/<%= course.videoId %>"
+        title="YouTube video player"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+      ></iframe>
           <% if(account){%> 
             <div class="mb-3">
               <label for="content" class="form-label">Nội dung bình luận</label>
